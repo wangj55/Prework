@@ -128,12 +128,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xiF-To-Tfg">
+                                <rect key="frame" x="295" y="243" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="enableDarkMode:" destination="bMb-zb-Zrc" eventType="valueChanged" id="iY8-GK-onF"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dark Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aox-o4-t6S">
+                                <rect key="frame" x="36" y="248" width="84" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yvY-rN-apB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="mwe-RO-Fs1"/>
                     <connections>
+                        <outlet property="darkModeSwitch" destination="xiF-To-Tfg" id="Bzz-5a-8lC"/>
                         <outlet property="tipPercentageLabel" destination="Y1J-Ci-IGw" id="iX1-Su-0MV"/>
                         <outlet property="tipPercentageSlider" destination="d3i-FY-y2E" id="oWn-xZ-INA"/>
                     </connections>

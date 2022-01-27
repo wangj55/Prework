@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.title = "Tip Calculator"
         defaults.set(0.00, forKey: "billAmount")
         defaults.set(0.15, forKey: "tipPercentage")
         defaults.synchronize()
@@ -25,8 +24,16 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        checkDarkMode()
         calculateTip()
-        print("tip recalculated")
+    }
+    
+    func checkDarkMode() {
+        let currentDarkModeState = overrideUserInterfaceStyle == .dark ? true : false
+        let newDarkModeState = defaults.bool(forKey: "darkModeState")
+        if currentDarkModeState != newDarkModeState {
+            overrideUserInterfaceStyle = newDarkModeState == true ? .dark : .light
+        }
     }
     
     func calculateTip() {
