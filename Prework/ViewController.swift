@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initDefaults()
+        billAmountTextField.becomeFirstResponder()
     }
     
     func initDefaults() {
