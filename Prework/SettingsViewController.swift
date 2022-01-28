@@ -16,8 +16,6 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkDarkMode()
-        setDarkModeSwitch()
         
         let currentTipPercentage = defaults.double(forKey: "tipPercentage")
         let intTipPercentage = Int(currentTipPercentage * 100)
@@ -25,6 +23,14 @@ class SettingsViewController: UIViewController {
         tipPercentageLabel.text = String(format: "%i%%", intTipPercentage)
         tipPercentageSlider.value = Float(currentTipPercentage)
         defaults.synchronize()
+        
+        checkDarkMode()
+        setDarkModeSwitch()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        checkDarkMode()
+        setDarkModeSwitch()
     }
     
     @IBAction func changeTipPercentage(_ sender: Any) {
@@ -38,7 +44,7 @@ class SettingsViewController: UIViewController {
     }
     
     func checkDarkMode() {
-        let currentDarkModeState = overrideUserInterfaceStyle == .dark ? true : false
+        let currentDarkModeState = traitCollection.userInterfaceStyle == .dark ? true : false
         let newDarkModeState = defaults.bool(forKey: "darkModeState")
         if currentDarkModeState != newDarkModeState {
             overrideUserInterfaceStyle = newDarkModeState == true ? .dark : .light
@@ -47,8 +53,10 @@ class SettingsViewController: UIViewController {
     
     func setDarkModeSwitch() {
         let darkModeState = defaults.bool(forKey: "darkModeState")
-        if darkModeState {
-            darkModeSwitch.setOn(true, animated: false)
+        if darkModeState == true {
+            darkModeSwitch.isOn = true
+        } else {
+            darkModeSwitch.isOn = false
         }
     }
 

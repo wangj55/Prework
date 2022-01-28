@@ -16,9 +16,15 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        initDefaults()
+    }
+    
+    func initDefaults() {
         defaults.set(0.00, forKey: "billAmount")
         defaults.set(0.15, forKey: "tipPercentage")
+        let darkModeState = traitCollection.userInterfaceStyle == .dark ? true : false
+        defaults.set(darkModeState, forKey: "darkModeState")
+        
         defaults.synchronize()
     }
     
@@ -29,7 +35,7 @@ class ViewController: UIViewController {
     }
     
     func checkDarkMode() {
-        let currentDarkModeState = overrideUserInterfaceStyle == .dark ? true : false
+        let currentDarkModeState = traitCollection.userInterfaceStyle == .dark ? true : false
         let newDarkModeState = defaults.bool(forKey: "darkModeState")
         if currentDarkModeState != newDarkModeState {
             overrideUserInterfaceStyle = newDarkModeState == true ? .dark : .light
