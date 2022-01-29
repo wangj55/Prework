@@ -13,11 +13,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var tipAmountLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     let defaults = UserDefaults.standard
+    var currencyDict = ["Canada": "$",
+                        "China": "¥",
+                        "EU": "€",
+                        "Japan": "¥",
+                        "South Korea": "₩",
+                        "Russia": "₽",
+                        "UK": "£",
+                        "US": "$"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initDefaults()
-        billAmountTextField.becomeFirstResponder()
+        self.initDefaults()
+        self.billAmountTextField.becomeFirstResponder()
     }
     
     func initDefaults() {
@@ -25,6 +33,7 @@ class ViewController: UIViewController {
         defaults.set(0.15, forKey: "tipPercentage")
         let darkModeState = traitCollection.userInterfaceStyle == .dark ? true : false
         defaults.set(darkModeState, forKey: "darkModeState")
+        defaults.set("US", forKey: "country")
         
         defaults.synchronize()
     }
@@ -46,18 +55,25 @@ class ViewController: UIViewController {
     func calculateTip() {
         let billAmount = defaults.double(forKey: "billAmount")
         let tipPercentage = defaults.double(forKey: "tipPercentage")
+        let country = defaults.string(forKey: "country")
         let tipAmount = billAmount * tipPercentage
         let totalAmount = billAmount + tipAmount
         defaults.synchronize()
         
-        tipAmountLabel.text = String(format: "$%.2f", tipAmount)
-        totalLabel.text = String(format: "$%.2f", totalAmount)
+        tipAmountLabel.text = parseMoney(amount: String(format: "%.2f", tipAmount), country: country!)
+        totalLabel.text = parseMoney(amount: String(format: "%.2f", totalAmount), country: country!)
     }
     
-    @IBAction func calculateTip(_ sender: Any) {
+    @IBAction func billAmountChanged(_ sender: Any) {
         let billAmount = Double(billAmountTextField.text!) ?? 0
         defaults.set(billAmount, forKey: "billAmount")
         defaults.synchronize()
         calculateTip()
+    }
+    
+    func parseMoney(amount: String, country: String) -> String {
+        let symbol = String(currencyDict[country]!)
+        let parsedMoney = symbol + amount
+        return parsedMoney
     }
 }
