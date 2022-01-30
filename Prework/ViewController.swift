@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var billAmountTextField: UITextField!
     @IBOutlet weak var tipAmountLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var tipPercentageSegment: UISegmentedControl!
+    
     let defaults = UserDefaults.standard
     var currencyDict = ["Canada": "$",
                         "China": "¥",
@@ -41,6 +43,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkDarkMode()
+        checkTipSegment()
         calculateTip()
     }
     
@@ -50,6 +53,25 @@ class ViewController: UIViewController {
         if currentDarkModeState != newDarkModeState {
             overrideUserInterfaceStyle = newDarkModeState == true ? .dark : .light
         }
+    }
+    
+    /** When view is reloaded, check if default rate is 0.15, 0.18 or 0.20. If so, move segement to that rate. */
+    func checkTipSegment() {
+        let matchedIndex = matchedSegmentTipRate()
+        if matchedIndex != -1 {
+            tipPercentageSegment.selectedSegmentIndex = matchedIndex
+        }
+    }
+    
+    func matchedSegmentTipRate() -> Int {
+        let tipRate = defaults.double(forKey: "tipPercentage")
+        for i in 0...2 {
+            let segmentRate = Double(tipPercentageSegment.titleForSegment(at: i)!.prefix(2))! / 100
+            if tipRate == segmentRate {
+                return i
+            }
+        }
+        return -1
     }
     
     func calculateTip() {
@@ -67,6 +89,17 @@ class ViewController: UIViewController {
     @IBAction func billAmountChanged(_ sender: Any) {
         let billAmount = Double(billAmountTextField.text!) ?? 0
         defaults.set(billAmount, forKey: "billAmount")
+        defaults.synchronize()
+        calculateTip()
+    }
+    
+    /** If selected, recalculate tip amount and update into defaults. */
+    @IBAction func tipPercentageSegmentChanged(_ sender: Any) {
+        let index = tipPercentageSegment.selectedSegmentIndex
+        let title = tipPercentageSegment.titleForSegment(at: index)
+        let rateString = title!.prefix(2)
+        let rate = Double(rateString)! / 100
+        defaults.set(rate, forKey: "tipPercentage")
         defaults.synchronize()
         calculateTip()
     }
