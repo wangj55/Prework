@@ -72,6 +72,13 @@
                                     <action selector="tipPercentageSegmentChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="yLj-VF-GE1"/>
                                 </connections>
                             </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="rate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XrR-fo-D35">
+                                <rect key="frame" x="70" y="280" width="73" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -86,6 +93,7 @@
                     <connections>
                         <outlet property="billAmountTextField" destination="cq7-pW-jOY" id="6WC-vN-hLf"/>
                         <outlet property="tipAmountLabel" destination="Kuy-VQ-WM5" id="0cG-DM-jNc"/>
+                        <outlet property="tipPercentageLabel" destination="XrR-fo-D35" id="pAt-D2-FDw"/>
                         <outlet property="tipPercentageSegment" destination="807-8Y-Aj0" id="PCM-LT-CcB"/>
                         <outlet property="totalLabel" destination="wat-S4-qdd" id="qcy-CU-KOw"/>
                     </connections>

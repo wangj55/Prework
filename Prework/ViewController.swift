@@ -11,6 +11,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var billAmountTextField: UITextField!
     @IBOutlet weak var tipAmountLabel: UILabel!
+    @IBOutlet weak var tipPercentageLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipPercentageSegment: UISegmentedControl!
     
@@ -66,7 +67,7 @@ class ViewController: UIViewController {
     func matchedSegmentTipRate() -> Int {
         let tipRate = defaults.double(forKey: "tipPercentage")
         for i in 0...2 {
-            let segmentRate = Double(tipPercentageSegment.titleForSegment(at: i)!.prefix(2))! / 100
+            let segmentRate = parseTipRateToDouble(tipRate: tipPercentageSegment.titleForSegment(at: i)!)
             if tipRate == segmentRate {
                 return i
             }
@@ -82,6 +83,7 @@ class ViewController: UIViewController {
         let totalAmount = billAmount + tipAmount
         defaults.synchronize()
         
+        tipPercentageLabel.text = parseTipRateToString(tipRate: tipPercentage)
         tipAmountLabel.text = parseMoney(amount: String(format: "%.2f", tipAmount), country: country!)
         totalLabel.text = parseMoney(amount: String(format: "%.2f", totalAmount), country: country!)
     }
@@ -96,9 +98,7 @@ class ViewController: UIViewController {
     /** If selected, recalculate tip amount and update into defaults. */
     @IBAction func tipPercentageSegmentChanged(_ sender: Any) {
         let index = tipPercentageSegment.selectedSegmentIndex
-        let title = tipPercentageSegment.titleForSegment(at: index)
-        let rateString = title!.prefix(2)
-        let rate = Double(rateString)! / 100
+        let rate = parseTipRateToDouble(tipRate: tipPercentageSegment.titleForSegment(at: index)!)
         defaults.set(rate, forKey: "tipPercentage")
         defaults.synchronize()
         calculateTip()
@@ -108,5 +108,14 @@ class ViewController: UIViewController {
         let symbol = String(currencyDict[country]!)
         let parsedMoney = symbol + amount
         return parsedMoney
+    }
+    
+    func parseTipRateToString(tipRate: Double) -> String {
+        let rateString = String(format: "%.0f%%", tipRate * 100)
+        return rateString
+    }
+    
+    func parseTipRateToDouble(tipRate: String) -> Double {
+        return Double(tipRate.prefix(2))! / 100
     }
 }
