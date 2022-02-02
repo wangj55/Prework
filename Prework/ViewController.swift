@@ -11,7 +11,6 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var billAmountTextField: UITextField!
     @IBOutlet weak var tipAmountLabel: UILabel!
-    @IBOutlet weak var tipPercentageLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipPercentageSegment: UISegmentedControl!
     
@@ -83,7 +82,6 @@ class ViewController: UIViewController {
         let totalAmount = billAmount + tipAmount
         defaults.synchronize()
         
-        tipPercentageLabel.text = parseTipRateToString(tipRate: tipPercentage)
         tipAmountLabel.text = parseMoney(amount: String(format: "%.2f", tipAmount), country: country!)
         totalLabel.text = parseMoney(amount: String(format: "%.2f", totalAmount), country: country!)
     }
